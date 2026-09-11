@@ -1,0 +1,45 @@
+schema_version: 1
+name: cloverleaf-serial
+repository_root: .
+documentation:
+- README.md
+build_variants:
+- name: baseline-gnu
+  command:
+  - make
+  - COMPILER=GNU
+  - MPI_COMPILER=gfortran
+  - C_MPI_COMPILER=gcc
+  working_directory: .
+  artifacts:
+  - clover_leaf
+  modules:
+  - GCC/13.2.0
+  environment: {}
+workloads:
+- name: bm_short_smoke
+  command:
+  - ./clover_leaf
+  working_directory: .
+  staged_inputs:
+  - source: InputDecks/clover_bm_short.in
+    destination: clover.in
+  environment: {}
+  correctness:
+  - kind: file_contains
+    pattern: This test is considered PASSED
+    path: clover.out
+    semantic: numerical
+- name: bm_short
+  command:
+  - ./clover_leaf
+  working_directory: .
+  staged_inputs:
+  - source: InputDecks/clover_bm_short.in
+    destination: clover.in
+  environment: {}
+  correctness:
+  - kind: file_contains
+    pattern: This test is considered PASSED
+    path: clover.out
+    semantic: numerical
